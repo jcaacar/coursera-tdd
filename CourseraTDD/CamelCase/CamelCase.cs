@@ -8,21 +8,18 @@ namespace CourseraTDD.CamelCase
     {
         public List<string> Convert(string original)
         {
+            ValidateStartWithoutNumber(original);
+            
             var result = new List<string>();
-
-            if (char.IsDigit(original[0]))
-                throw new ArgumentException("The string can't start with number.");
-
             var currentWord = original[0].ToString();
 
             for (int i = 1; i < original.Length; i++)
             {
-                var c = original[i];
+                var character = original[i];
 
-                if (!char.IsLetterOrDigit(c))
-                    throw new ArgumentException("The string can't have symbols.");
+                ValidadeLetterOrDigit(character);
 
-                HandleCharToCurrentWord(c, result, ref currentWord);
+                HandleCharToCurrentWord(character, result, ref currentWord);
             }
 
             if (currentWord.Any())
@@ -33,23 +30,41 @@ namespace CourseraTDD.CamelCase
             return result;
         }
 
-        private void HandleCharToCurrentWord(char c, List<string> result, ref string currentWord)
+        private void ValidateStartWithoutNumber(string original)
         {
-            var isUpper = char.IsUpper(c);
-            var isDigit = char.IsDigit(c);
+            if (char.IsDigit(original[0]))
+                throw new ArgumentException("The string can't start with number.");
+        }
+
+        private void ValidadeLetterOrDigit(char character)
+        {
+            if (!char.IsLetterOrDigit(character))
+                throw new ArgumentException("The string can't have symbols.");
+        }
+
+        private void HandleCharToCurrentWord(char character, List<string> result, ref string currentWord)
+        {
+            var isUpper = char.IsUpper(character);
+            var isDigit = char.IsDigit(character);
 
             var lastIsDigit = char.IsDigit(currentWord.Last());
             var lastIsUpperCase = char.IsUpper(currentWord.Last());
 
-            if (!isUpper && !IsAcronym(currentWord) && (!isDigit && !IsOnlyDigit(currentWord)) || (isUpper && lastIsUpperCase) || isDigit && lastIsDigit)
+            var isUpperAndLastIsUpper = isUpper && lastIsUpperCase;
+            var isDigitAndLastIsDigit = isDigit && lastIsDigit;
+
+            var isNotUpperAndNotAcronmy = !isUpper && !IsAcronym(currentWord);
+            var isNotDigitAndNotOnlyDigit = !isDigit && !IsOnlyDigit(currentWord);
+            
+            if ((isUpperAndLastIsUpper || isDigitAndLastIsDigit) || (isNotUpperAndNotAcronmy && isNotDigitAndNotOnlyDigit))
             {
-                currentWord += c;
+                currentWord += character;
             }
             else
             {
                 AddWordToResult(currentWord, result);
 
-                currentWord = c.ToString();
+                currentWord = character.ToString();
             }
         }
 
@@ -59,14 +74,14 @@ namespace CourseraTDD.CamelCase
             result.Add(isAcronym ? currentWord : currentWord.ToLower());
         }
 
-        private bool IsAcronym(string str)
+        private bool IsAcronym(string value)
         {
-            return str.Length > 1 && str.All(v => char.IsUpper(v));
+            return value.Length > 1 && value.All(c => char.IsUpper(c));
         }
 
-        private bool IsOnlyDigit(string str)
+        private bool IsOnlyDigit(string value)
         {
-            return str.All(v => char.IsDigit(v));
+            return value.All(c => char.IsDigit(c));
         }
     }
 
