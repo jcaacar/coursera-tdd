@@ -1,5 +1,6 @@
 #  Repository of study about TDD
 
+Implementing the exercises using .Net Core 3.1 with C# and Visual Studio 2019
 
 <b>Reference</b>
 
