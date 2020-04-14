@@ -94,6 +94,16 @@ namespace CourseraTDDTEST.CamelCase
         }
 
         [Test]
+        public void ManyAcronyms()
+        {
+            var result = camelCaseSolution.Convert("numeroCPFeRGcontribuintePF");
+
+            var expected = new List<string> { "numero", "CPF", "e", "RG", "contribuinte", "PF" };
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(expected.All(i => result.Contains(i)));
+        }
+
+        [Test]
         public void NumbersInTheMiddle()
         {
             var result = camelCaseSolution.Convert("recupera10primeiros");
