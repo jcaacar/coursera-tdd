@@ -1,5 +1,4 @@
 ﻿using CourseraTDD.CashMachine.Exception;
-using CourseraTDDTEST.CashMachine.Exception;
 
 namespace CourseraTDD.CashMachine
 {

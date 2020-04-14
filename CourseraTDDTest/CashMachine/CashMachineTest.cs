@@ -1,5 +1,5 @@
 ﻿using CourseraTDD.CashMachine;
-using CourseraTDDTEST.CashMachine.Exception;
+using CourseraTDD.CashMachine.Exception;
 using NUnit.Framework;
 using cashMachine = CourseraTDD.CashMachine;
 
@@ -258,7 +258,7 @@ namespace CourseraTDDTEST.CashMachine
             cashMachine.Login();
             cashMachine.Deposit();
 
-            serviceMock.setError(RemoteServiceMock.Error.PersistAccount);
+            serviceMock.SetError(RemoteServiceMock.Error.PersistAccount);
 
             Assert.Throws<AccountPersistenceException>(() => cashMachine.Withdraw());
         }

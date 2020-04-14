@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CourseraTDDTEST.CashMachine.Exception
+namespace CourseraTDD.CashMachine.Exception
 {
     [Serializable]
     public class ReadCardNumberException : System.Exception

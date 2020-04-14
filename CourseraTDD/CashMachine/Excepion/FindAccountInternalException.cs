@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CourseraTDDTEST.CashMachine.Exception
+namespace CourseraTDD.CashMachine.Exception
 {
     [Serializable]
-    internal class FindAccountInternalException : System.Exception
+    public class FindAccountInternalException : System.Exception
     {
         public FindAccountInternalException()
         {

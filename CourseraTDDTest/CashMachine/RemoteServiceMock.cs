@@ -1,5 +1,5 @@
 ﻿using CourseraTDD.CashMachine;
-using CourseraTDDTEST.CashMachine.Exception;
+using CourseraTDD.CashMachine.Exception;
 
 namespace CourseraTDDTEST.CashMachine
 {
@@ -30,7 +30,7 @@ namespace CourseraTDDTEST.CashMachine
             this.errorFlags = errorFlags;
         }
 
-        public void setError(Error error)
+        public void SetError(Error error)
         {
             errorFlags |= error;
         }
