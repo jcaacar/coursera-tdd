@@ -29,39 +29,9 @@ namespace CourseraTDDTEST
             }
         }
 
-        public void VerifyCalledMethod(string method, object[] args, object returned)
+        public void VerifyCalledMethod(string method, object[] args = null, object returned = null, int count = 1)
         {
-            VerifyMethodsCalled(new string[] { method },
-                                            new MethodData[] {
-                                                new MethodData {
-                                                    Args = args?.ToList(),
-                                                    Return = returned
-                                                } });
-        }
-
-        public void VerifyMethodsCalled(string[] methods, params MethodData[] returnedValues)
-        {
-            for (var i = 0; i < methods.Length; i++)
-            {
-                var method = methods[i];
-                var found = methodsCalled.ContainsKey(method);
-
-                if (!found) Assert.Fail($"Method: {method} not called");
-
-                var argsExpected = returnedValues[i].Args;
-                var argsReceived = methodsCalled[method][i].Args;
-
-                var returnExpected = returnedValues[i].Return;
-                var returned = methodsCalled[method][i].Return;
-
-                Assert.That(argsReceived, Is.EqualTo(argsExpected), $"Method {method} position[{i}] received args:\n {argsReceived?.ToString(" - ")} but expected:\n {argsExpected?.ToString(" - ")}");
-                Assert.AreEqual(returnExpected, returned, $"Method {method} position[{i}] returned: {returned} but expected: {returnExpected}");
-            }
-        }
-
-        public void VerifyCalledCountMethod(string method, object[] args, object returned, int count)
-        {
-            if(methodsCalled.TryGetValue(method, out var items))
+            if (methodsCalled.TryGetValue(method, out var items))
             {
                 ValidateCalledCount(method, count, items);
 
@@ -69,6 +39,20 @@ namespace CourseraTDDTEST
 
                 ValidateReturned(method, items, returned);
             }
+        }
+
+        public int GetMethodCalledCount([CallerMemberName] string method = null)
+        {
+            if (methodsCalled.TryGetValue(method, out var items))
+            {
+                return items.Count;
+            }
+            return 0;
+        }
+
+        public void ClearCalledMethods()
+        {
+            methodsCalled.Clear();
         }
 
         private void ValidateCalledCount(string method, int count, IList<MethodData> items)
@@ -81,7 +65,7 @@ namespace CourseraTDDTEST
 
         private void ValidateArgs(string method, IEnumerable<MethodData> items, object[] args)
         {
-            var argsOk = items.All(i => i.Args.All(a => args.Contains(a)));
+            var argsOk = items.All(i => (i.Args == null && args == null) || i.Args.All(a => args.Contains(a)));
 
             if (!argsOk)
             {
@@ -118,7 +102,7 @@ namespace CourseraTDDTEST
             var sb = new StringBuilder();
 
             sb.AppendLine("Args: ").AppendLine(Args?.ToString(" - "));
-            sb.AppendLine("Return: ").AppendLine(Return?.ToString());
+            sb.AppendLine("\nReturn: ").AppendLine(Return?.ToString());
 
             return sb.ToString();
         }

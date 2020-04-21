@@ -46,7 +46,7 @@ namespace CourseraTDDTEST.CashMachine
             var result = cashMachine.Login();
 
             hardwareMock.VerifyCalledMethod(HardwareMock.MethodGetCardNumber, null, number);
-            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodFindAccount, new object[] { number }, null);
+            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodFindAccount, new object[] { number });
 
             Assert.AreEqual(CourseraTDD.CashMachine.CashMachine.InvalidLoginMessage, result);
         }
@@ -90,7 +90,7 @@ namespace CourseraTDDTEST.CashMachine
             var result = cashMachine.Deposit();
 
             hardwareMock.VerifyCalledMethod(HardwareMock.MethodGetValueToDeposit, null, valueToDeposit);
-            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account }, null);
+            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account });
 
             Assert.AreEqual(CourseraTDD.CashMachine.CashMachine.SuccessDepositMessage, result);
         }
@@ -200,7 +200,7 @@ namespace CourseraTDDTEST.CashMachine
             var balance = cashMachine.AccountBalance();
 
             hardwareMock.VerifyCalledMethod(HardwareMock.MethodGetValueToWithdraw, null, withdrawValue);
-            serviceMock.VerifyCalledCountMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account }, null, 2);
+            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account }, null, 2);
 
             Assert.AreEqual(string.Format(CourseraTDD.CashMachine.CashMachine.SuccessBalanceMessage, expectedBalance), balance);
             Assert.AreEqual(CourseraTDD.CashMachine.CashMachine.SuccessWithdrawMessage, result);
@@ -224,7 +224,7 @@ namespace CourseraTDDTEST.CashMachine
             var balance = cashMachine.AccountBalance();
 
             hardwareMock.VerifyCalledMethod(HardwareMock.MethodGetValueToWithdraw, null, withdrawValue);
-            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account }, null);
+            serviceMock.VerifyCalledMethod(RemoteServiceMock.MethodPersitAccount, new object[] { account });
 
             Assert.AreEqual(string.Format(CourseraTDD.CashMachine.CashMachine.SuccessBalanceMessage, depositValue), balance);
             Assert.AreEqual(CourseraTDD.CashMachine.CashMachine.InsufficientBalanceMessage, result);
