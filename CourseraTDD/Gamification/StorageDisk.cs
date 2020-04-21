@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CourseraTDD.Gamification
 {
-    public class StorageDisk
+    public class StorageDisk : IStorage
     {
         #region Cons
 
@@ -51,7 +51,7 @@ namespace CourseraTDD.Gamification
             return 0;
         }
 
-        public List<string> GetAllUserWithPoints()
+        public IEnumerable<string> GetAllUserWithPoints()
         {
             var result = new List<string>();
 
